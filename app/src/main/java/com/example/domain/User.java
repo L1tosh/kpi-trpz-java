@@ -1,11 +1,14 @@
-package domain;
+package com.example.domain;
 
-import annotation.SerializedName;
+import com.example.annotation.Serialized;
+import com.example.annotation.SerializedName;
+import com.example.serializer.impl.JsonSerializer;
 
 /**
  * Represents a user entity with a username (email) and password.
  * Use {@link SerializedName} annotation for field email.
  */
+@Serialized(JsonSerializer.class)
 public class User {
     @SerializedName("username")
     private String email;

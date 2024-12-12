@@ -1,6 +1,6 @@
-package serializer.impl;
+package com.example.serializer.impl;
 
-import serializer.Serializer;
+import com.example.serializer.Serializer;
 
 import java.util.Iterator;
 import java.util.Map;

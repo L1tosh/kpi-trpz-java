@@ -1,6 +1,6 @@
-package serializer;
+package com.example.serializer;
 
-import annotation.SerializedName;
+import com.example.annotation.SerializedName;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -29,24 +29,30 @@ public abstract class Serializer  {
      * @return a map containing field names as keys and their values as string representations.
      */
     protected Map<String, String> getFieldValues(Object obj) {
-        var fields = obj.getClass().getDeclaredFields();
         Map<String, String> fieldValues = new HashMap<>();
+        Class<?> currentClass = obj.getClass();
 
-        for (Field field : fields) {
-            var fieldName = field.getName();
-            var annotation = field.getAnnotation(SerializedName.class);
+        while (currentClass != null) {
+            var fields = currentClass.getDeclaredFields();
 
-            if (annotation != null) {
-                fieldName = annotation.value();
+            for (Field field : fields) {
+                var fieldName = field.getName();
+                var annotation = field.getAnnotation(SerializedName.class);
+
+                if (annotation != null) {
+                    fieldName = annotation.value();
+                }
+
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    fieldValues.put(fieldName, value != null ? value.toString() : "null");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
 
-            try {
-                field.setAccessible(true);
-                Object value = field.get(obj);
-                fieldValues.put(fieldName, value != null ? value.toString() : "null");
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            currentClass = currentClass.getSuperclass();
         }
 
         return fieldValues;

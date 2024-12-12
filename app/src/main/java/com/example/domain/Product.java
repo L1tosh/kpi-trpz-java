@@ -1,8 +1,12 @@
-package domain;
+package com.example.domain;
+
+import com.example.annotation.Serialized;
+import com.example.serializer.impl.JsonSerializer;
 
 /**
  * Represents a product entity with a name, description, and price.
  */
+@Serialized(JsonSerializer.class)
 public class Product {
     private String name;
     private String description;

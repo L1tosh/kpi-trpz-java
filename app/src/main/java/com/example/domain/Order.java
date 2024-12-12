@@ -1,11 +1,14 @@
-package domain;
+package com.example.domain;
 
-import annotation.SerializedName;
+import com.example.annotation.Serialized;
+import com.example.annotation.SerializedName;
+import com.example.serializer.impl.XMLSerializer;
 
 /**
  * Represents an order entity with an ID, username, and product name.
  * Use {@link SerializedName} annotation for field userName.
  */
+@Serialized(XMLSerializer.class)
 public class Order {
     private Long id;
     @SerializedName("userEmail")
